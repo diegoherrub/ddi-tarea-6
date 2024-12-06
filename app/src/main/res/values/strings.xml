@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UI</string>
+
+    <!-- Bottom Navigation View -->
+    <string name="alarms">Alarmas</string>
+    <string name="world_clock">Reloj mundial</string>
+    <string name="stopwatch">Cronómetro</string>
+    <string name="timer">Temporizador</string>
 </resources>
