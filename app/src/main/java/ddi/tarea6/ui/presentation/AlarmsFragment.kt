@@ -64,17 +64,10 @@ class AlarmsFragment : Fragment() {
         adapter = AlarmAdapter(alarmList.toMutableList()) { updatedAlarm ->
             val index = alarmList.indexOfFirst { it.hour == updatedAlarm.hour }
             if (index != -1) {
-                // Actualizar el ítem en la lista mutable
                 alarmList[index] = updatedAlarm
-
-                // Notificar al adaptador sobre el cambio en el ítem específico
                 adapter.notifyItemChanged(index)
-
-                // Guardar la lista actualizada en el repositorio
                 alarmsDataRepository.saveAlarms(alarmList)
             }
-
-            // Mostrar mensaje de activación/desactivación
             Toast.makeText(
                 requireContext(),
                 "Alarma ${updatedAlarm.hour} ${if (updatedAlarm.isActive) "activada" else "desactivada"}",

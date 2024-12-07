@@ -45,6 +45,7 @@ dependencies {
 
     implementation(libs.gson)
     implementation(libs.material)
+    implementation(libs.androidx.cardview)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
