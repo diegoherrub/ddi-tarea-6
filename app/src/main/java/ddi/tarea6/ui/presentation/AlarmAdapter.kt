@@ -47,10 +47,11 @@ class AlarmAdapter(
         //    else context.getColor(R.color.inactive_card_background)
         //)
 
-        //holder.alarmTime.setTextColor(
-        //    if (isActive) context.getColor(R.color.active_text_view_hour)
-        //    else context.getColor(R.color.inactive_text_view_hour)
-        //)
+        holder.alarmTime.setTextColor(
+            if (isActive) context.getColor(R.color.md_theme_tertiary)
+            else context.getColor(R.color.md_theme_outlineVariant_mediumContrast)
+        )
+
 
         holder.alarmSwitch.trackTintList = ColorStateList.valueOf(
             if (isActive) context.getColor(R.color.md_theme_tertiary)
