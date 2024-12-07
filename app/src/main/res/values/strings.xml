@@ -6,4 +6,7 @@
     <string name="world_clock">Reloj mundial</string>
     <string name="stopwatch">Cronómetro</string>
     <string name="timer">Temporizador</string>
+
+    <!-- alarms file xml -->
+    <string name="alarms_file">alarms</string>
 </resources>

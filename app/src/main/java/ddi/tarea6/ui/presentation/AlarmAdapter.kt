@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ddi.tarea6.ui.R
+import ddi.tarea6.ui.domain.Alarm
 
 class AlarmAdapter(
-    private val alarms: List<String>, // Lista de alarmas
-    private val onToggle: (String, Boolean) -> Unit // Función para manejar activaciones/desactivaciones
+    private val alarms: List<Alarm>,
+    private val onToggle: (Alarm) -> Unit // Función para manejar activaciones/desactivaciones
 ) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
 
     // ViewHolder para cada ítem
@@ -27,11 +27,12 @@ class AlarmAdapter(
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarm = alarms[position]
-        holder.alarmTime.text = alarm
 
-        // Manejar cambios en el interruptor
+        holder.alarmSwitch.setOnCheckedChangeListener(null)
+        holder.alarmTime.text = alarm.hour
+        holder.alarmSwitch.isChecked = alarm.isActive
         holder.alarmSwitch.setOnCheckedChangeListener { _, isChecked ->
-            onToggle(alarm, isChecked)
+            onToggle(alarm.copy(isActive = isChecked))
         }
     }
 

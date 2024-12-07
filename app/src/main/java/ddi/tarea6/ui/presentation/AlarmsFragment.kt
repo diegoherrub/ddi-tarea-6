@@ -9,8 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ddi.tarea6.ui.R
+import ddi.tarea6.ui.data.AlarmsDataRepository
+import ddi.tarea6.ui.data.local.AlarmsXmlLocalDataRepository
+import ddi.tarea6.ui.domain.Alarm
+import ddi.tarea6.ui.domain.AlarmsRepository
 
 class AlarmsFragment : Fragment() {
+
+    private lateinit var alarmsDataRepository: AlarmsDataRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,19 +31,37 @@ class AlarmsFragment : Fragment() {
         // Inicializar RecyclerView
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_alarms)
 
-        // Lista de alarmas de prueba
-        val alarmList = listOf("07:00 AM", "08:30 AM", "09:45 AM", "11:00 AM", "12:30 PM")
+        val xmlLocal = AlarmsXmlLocalDataRepository(requireContext())
+        alarmsDataRepository = AlarmsDataRepository(xmlLocal)
+
+        // Cargar lista de alarmas
+        var alarmList = alarmsDataRepository.getAlarms()
+
+        if (alarmList.isEmpty()) {
+            alarmList = listOf(
+                Alarm("07:00", false),
+                Alarm("08:30", false),
+                Alarm("09:45", false),
+                Alarm("11:00", false),
+                Alarm("12:30", false)
+            )
+            alarmsDataRepository.saveAlarms(alarmList)
+        }
 
         // Configurar RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = AlarmAdapter(alarmList) { alarm, isActive ->
-            val message = if (isActive) {
-                "Alarma $alarm activada"
+        recyclerView.adapter = AlarmAdapter(alarmList) { updatedAlarm ->
+            // Actualizar lista y guardar cambios
+            alarmList = alarmList.map { if (it.hour == updatedAlarm.hour) updatedAlarm else it }
+            alarmsDataRepository.saveAlarms(alarmList)
+
+            // Mostrar mensaje
+            val message = if (updatedAlarm.isActive) {
+                "Alarma ${updatedAlarm.hour} activada"
             } else {
-                "Alarma $alarm desactivada"
+                "Alarma ${updatedAlarm.hour} desactivada"
             }
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
     }
-
 }
