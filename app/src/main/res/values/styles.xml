@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base style -->
     <style name="BaseTextStyle">
@@ -17,4 +17,36 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/md_theme_onSecondaryContainer</item>
     </style>
+
+    <!-- Fragment Container -->
+    <style name="fragment_container">
+        <item name="android:padding">@dimen/pd_medium</item>
+    </style>
+
+    <!-- Card View Lista Alarmas -->
+    <style name="card_view_alarm_list">
+        <item name="cardCornerRadius">@dimen/cr_small</item>
+        <item name="android:layout_marginBottom">@dimen/m_medium</item>
+        <item name="cardElevation">@dimen/ce_medium</item>
+    </style>
+
+    <!-- Card View Lista Alarmas Constraint Layout-->
+    <style name="constraint_alarm_list">
+        <item name="android:padding">@dimen/pd_medium</item>
+    </style>
+
+    <!-- Text View Hour -->
+    <style name="text_view_hour">
+        <item name="fontFamily">@font/open_sans_bold</item>
+        <item name="android:textSize">@dimen/txt_hour</item>
+        <item name="android:textColor">@color/md_theme_tertiary</item>
+    </style>
+
+    <!-- Text View Description -->
+    <style name="text_view_description">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/txt_medium</item>
+        <item name="android:textColor">@color/md_theme_outline</item>
+    </style>
+
 </resources>

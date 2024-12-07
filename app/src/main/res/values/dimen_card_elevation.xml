@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ce_small">2dp</dimen>
+    <dimen name="ce_medium">4dp</dimen>
+    <dimen name="ce_large">8dp</dimen>
+</resources>

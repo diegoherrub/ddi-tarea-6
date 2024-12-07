@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cr_small">8dp</dimen>
+    <dimen name="cr_medium">16dp</dimen>
+    <dimen name="cr_large">24dp</dimen>
+</resources>

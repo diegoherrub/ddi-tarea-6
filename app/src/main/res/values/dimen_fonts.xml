@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="txt_small">8dp</dimen>
+    <dimen name="txt_medium">16dp</dimen>
+    <dimen name="txt_large">24dp</dimen>
+    <dimen name="txt_hour">32dp</dimen>
+
+</resources>

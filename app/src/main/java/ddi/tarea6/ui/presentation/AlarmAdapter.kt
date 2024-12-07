@@ -10,13 +10,13 @@ import ddi.tarea6.ui.R
 import ddi.tarea6.ui.domain.Alarm
 
 class AlarmAdapter(
-    private val alarms: List<Alarm>,
-    private val onToggle: (Alarm) -> Unit // Función para manejar activaciones/desactivaciones
+    private val alarms: MutableList<Alarm>, // MutableList para permitir actualizaciones
+    private val onToggle: (Alarm) -> Unit
 ) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
 
-    // ViewHolder para cada ítem
     inner class AlarmViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val alarmTime: TextView = view.findViewById(R.id.tv_alarm_time)
+        val alarmTime: TextView = view.findViewById(R.id.text_view_hour)
+        val alarmsDescription: TextView = view.findViewById(R.id.text_view_description)
         val alarmSwitch: Switch = view.findViewById(R.id.switch_alarm)
     }
 
@@ -28,11 +28,26 @@ class AlarmAdapter(
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarm = alarms[position]
 
+        // Evitar duplicación de listeners
         holder.alarmSwitch.setOnCheckedChangeListener(null)
+
+        // Configurar datos
         holder.alarmTime.text = alarm.hour
+        holder.alarmsDescription.text = alarm.description
         holder.alarmSwitch.isChecked = alarm.isActive
+
+        // Listener del Switch
         holder.alarmSwitch.setOnCheckedChangeListener { _, isChecked ->
-            onToggle(alarm.copy(isActive = isChecked))
+            val updatedAlarm = alarm.copy(isActive = isChecked)
+
+            // Actualizar datos internos
+            alarms[position] = updatedAlarm
+
+            // Notificar cambio
+            notifyItemChanged(position)
+
+            // Callback para actualizar datos externos
+            onToggle(updatedAlarm)
         }
     }
 

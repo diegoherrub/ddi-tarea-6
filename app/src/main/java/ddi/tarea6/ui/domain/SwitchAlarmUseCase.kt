@@ -1,6 +1,5 @@
 package ddi.tarea6.ui.domain
 
-
 class SwitchAlarmUseCase(
     private val alarmsRepository: AlarmsRepository
 ) {
