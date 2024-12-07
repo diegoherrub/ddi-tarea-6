@@ -6,9 +6,9 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alarms Fragment"
-        android:textSize="18sp" />
+    <!-- RecyclerView para mostrar las alarmas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_alarms"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

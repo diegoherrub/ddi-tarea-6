@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Base style -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/open_sans_regular</item>
