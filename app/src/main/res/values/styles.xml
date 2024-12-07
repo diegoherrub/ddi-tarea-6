@@ -36,4 +36,16 @@
         <item name="android:textSize">@dimen/txt_medium</item>
         <item name="android:textColor">@color/md_theme_outline</item>
     </style>
+
+    <style name="bottom_navigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/EmptyActiveIndicatorStyle</item>
+        <item name="itemIconTint">@color/bottom_nav_icon_color_selector</item>
+        <item name="itemTextColor">@color/bottom_nav_icon_color_selector</item>
+    </style>
+    
+    <!-- Estilo vacío para el indicador activo -->
+    <style name="EmptyActiveIndicatorStyle">
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:height">0dp</item>
+    </style>
 </resources>

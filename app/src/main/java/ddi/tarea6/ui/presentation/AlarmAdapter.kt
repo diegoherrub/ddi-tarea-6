@@ -3,7 +3,6 @@ package ddi.tarea6.ui.presentation
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import ddi.tarea6.ui.R
 import ddi.tarea6.ui.domain.Alarm
@@ -42,16 +41,15 @@ class AlarmAdapter(
     private fun updateCardViewAttributes(holder: AlarmViewHolder, isActive: Boolean) {
         val context = holder.cardView.context
 
-        //holder.cardView.setCardBackgroundColor (
-        //    if (isActive) context.getColor(R.color.active_card_background)
-        //    else context.getColor(R.color.inactive_card_background)
-        //)
+        holder.alarmsDescription.setTextColor(
+            if (isActive) context.getColor(R.color.md_theme_tertiary)
+            else context.getColor(R.color.md_theme_outlineVariant_mediumContrast)
+        )
 
         holder.alarmTime.setTextColor(
             if (isActive) context.getColor(R.color.md_theme_tertiary)
             else context.getColor(R.color.md_theme_outlineVariant_mediumContrast)
         )
-
 
         holder.alarmSwitch.trackTintList = ColorStateList.valueOf(
             if (isActive) context.getColor(R.color.md_theme_tertiary)
