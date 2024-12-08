@@ -4,6 +4,7 @@
     android:id="@+id/card_view_alarm"
     app:cardCornerRadius="@dimen/cr_medium"
     android:layout_marginBottom="@dimen/m_medium"
+    android:layout_marginTop="@dimen/m_medium"
     app:cardBackgroundColor="@color/md_theme_surfaceDim"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

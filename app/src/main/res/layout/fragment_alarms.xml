@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motion_layout_alarms"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/alarms_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_tertiary"
+        android:orientation="vertical"
+        android:padding="@dimen/pd_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_view_alarms">
+
+        <TextView
+            android:id="@+id/text_alarms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alarms"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="@dimen/txt_large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_time_remaining"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="la hora sonará dentro de 10 minutos"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="@dimen/txt_medium"
+            android:textStyle="italic" />
+    </LinearLayout>
 
     <!-- RecyclerView para mostrar las alarmas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_alarms"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="0dp"
+        android:paddingLeft="@dimen/pd_medium"
+        android:paddingRight="@dimen/pd_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarms_info" />
+</androidx.constraintlayout.widget.ConstraintLayout>

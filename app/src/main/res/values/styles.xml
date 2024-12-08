@@ -18,11 +18,6 @@
         <item name="android:textColor">@color/md_theme_onSecondaryContainer</item>
     </style>
 
-    <!-- Fragment Container -->
-    <style name="fragment_container">
-        <item name="android:padding">@dimen/pd_medium</item>
-    </style>
-
     <!-- Text View Hour -->
     <style name="text_view_hour">
         <item name="fontFamily">@font/open_sans_bold</item>

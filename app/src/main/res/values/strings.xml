@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">UI</string>
 
+    <!-- Top Bar -->
+    <string name="menu_toolbar_title">Más</string>
+
     <!-- Bottom Navigation View -->
     <string name="alarms">Alarmas</string>
     <string name="world_clock">Reloj mundial</string>
