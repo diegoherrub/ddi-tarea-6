@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +13,9 @@ import ddi.tarea6.ui.R
 import ddi.tarea6.ui.data.AlarmsDataRepository
 import ddi.tarea6.ui.data.local.AlarmsXmlLocalDataRepository
 import ddi.tarea6.ui.domain.Alarm
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class AlarmsFragment : Fragment() {
 
@@ -31,6 +34,7 @@ class AlarmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_alarms)
+        val timeRemainingTextView = view.findViewById<TextView>(R.id.text_time_remaining)
 
         val xmlLocal = AlarmsXmlLocalDataRepository(requireContext())
         alarmsDataRepository = AlarmsDataRepository(xmlLocal)
@@ -62,12 +66,43 @@ class AlarmsFragment : Fragment() {
             alarmsDataRepository.saveAlarms(alarmList)
         }
 
+        fun updateTimeRemaining() {
+            val currentTime = LocalTime.now()
+            val activeAlarms = alarmList.filter { it.isActive }
+            if (activeAlarms.isNotEmpty()) {
+                val formatter = DateTimeFormatter.ofPattern("HH:mm")
+                val closestAlarm = activeAlarms.minByOrNull {
+                    val alarmTime = LocalTime.parse(it.hour, formatter)
+                    ChronoUnit.MINUTES.between(currentTime, alarmTime).let { diff ->
+                        if (diff < 0) diff + 24 * 60 else diff
+                    }
+                }
+
+                closestAlarm?.let {
+                    val alarmTime = LocalTime.parse(it.hour, formatter)
+                    val minutesRemaining = ChronoUnit.MINUTES.between(currentTime, alarmTime).let { diff ->
+                        if (diff < 0) diff + 24 * 60 else diff
+                    }
+
+                    val hours = minutesRemaining / 60
+                    val minutes = minutesRemaining % 60
+                    timeRemainingTextView.text = when {
+                        hours > 0 -> "La próxima alarma sonará en $hours horas y $minutes minutos"
+                        else -> "La próxima alarma sonará en $minutes minutos"
+                    }
+                }
+            } else {
+                timeRemainingTextView.text = "No hay alarmas activas"
+            }
+        }
+
         adapter = AlarmAdapter(alarmList.toMutableList()) { updatedAlarm ->
             val index = alarmList.indexOfFirst { it.hour == updatedAlarm.hour }
             if (index != -1) {
                 alarmList[index] = updatedAlarm
                 adapter.notifyItemChanged(index)
                 alarmsDataRepository.saveAlarms(alarmList)
+                updateTimeRemaining()
             }
             Toast.makeText(
                 requireContext(),
@@ -79,15 +114,6 @@ class AlarmsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-//        val motionLayout = requireActivity().findViewById<MotionLayout>(R.id.motion_layout_alarms)
-//
-//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//                val progress = (recyclerView.computeVerticalScrollOffset() / 500f).coerceIn(0f, 1f)
-//                motionLayout.progress = progress
-//            }
-//        })
+        updateTimeRemaining()
     }
 }
