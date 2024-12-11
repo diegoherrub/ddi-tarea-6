@@ -36,12 +36,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_alarms"/>
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_alarms"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/pd_medium"
+        android:paddingTop="@dimen/pd_small"
+        android:paddingBottom="@dimen/pd_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
