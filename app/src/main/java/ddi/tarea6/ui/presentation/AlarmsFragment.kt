@@ -143,7 +143,10 @@ class AlarmsFragment : Fragment() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+
                 if (dy > 0 && !isTimeRemainingHidden) {
+                    // Si ya está oculto, no volver a animar
+                    isTimeRemainingHidden = true
                     animateHeightAndTextSize(
                         timeRemainingTextView,
                         timeRemainingTextView.height,
@@ -152,8 +155,9 @@ class AlarmsFragment : Fragment() {
                         24f,
                         16f
                     )
-                    isTimeRemainingHidden = true
                 } else if (dy < 0 && isTimeRemainingHidden) {
+                    // Si ya está visible, no volver a animar
+                    isTimeRemainingHidden = false
                     animateHeightAndTextSize(
                         timeRemainingTextView,
                         0,
@@ -162,7 +166,6 @@ class AlarmsFragment : Fragment() {
                         16f,
                         24f
                     )
-                    isTimeRemainingHidden = false
                     updateTimeRemaining()
                 }
             }

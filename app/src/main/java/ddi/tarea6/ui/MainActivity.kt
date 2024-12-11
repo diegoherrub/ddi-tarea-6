@@ -45,8 +45,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_more -> {
-                Toast.makeText(this, "More clicked", Toast.LENGTH_SHORT).show()
+            R.id.action_edit -> {
+                Toast.makeText(this, "Editar pulsado", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_settings -> {
+                Toast.makeText(this, "Ajustes pulsado", Toast.LENGTH_SHORT).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

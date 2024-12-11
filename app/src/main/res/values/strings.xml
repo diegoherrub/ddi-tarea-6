@@ -3,6 +3,8 @@
 
     <!-- Top Bar -->
     <string name="menu_toolbar_title">Más</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_settings">Ajustes</string>
 
     <!-- Bottom Navigation View -->
     <string name="alarms">Alarmas</string>
