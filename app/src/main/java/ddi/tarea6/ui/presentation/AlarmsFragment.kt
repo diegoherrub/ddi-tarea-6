@@ -1,5 +1,7 @@
 package ddi.tarea6.ui.presentation
 
+import android.animation.ValueAnimator
+import android.animation.AnimatorSet
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +38,7 @@ class AlarmsFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_alarms)
         val timeRemainingTextView = view.findViewById<TextView>(R.id.text_time_remaining)
+        val textAlarmsTextView = view.findViewById<TextView>(R.id.text_alarms)
 
         val xmlLocal = AlarmsXmlLocalDataRepository(requireContext())
         alarmsDataRepository = AlarmsDataRepository(xmlLocal)
@@ -65,6 +68,26 @@ class AlarmsFragment : Fragment() {
                 Alarm("23:15", "Última alarma del día", false)
             )
             alarmsDataRepository.saveAlarms(alarmList)
+        }
+
+        fun animateHeightAndTextSize(view: View, fromHeight: Int, toHeight: Int, textView: TextView, fromSize: Float, toSize: Float) {
+            val heightAnimator = ValueAnimator.ofInt(fromHeight, toHeight)
+            heightAnimator.addUpdateListener { animation ->
+                val value = animation.animatedValue as Int
+                val layoutParams = view.layoutParams
+                layoutParams.height = value
+                view.layoutParams = layoutParams
+            }
+
+            val textSizeAnimator = ValueAnimator.ofFloat(fromSize, toSize)
+            textSizeAnimator.addUpdateListener { animation ->
+                textView.textSize = animation.animatedValue as Float
+            }
+
+            val animatorSet = AnimatorSet()
+            animatorSet.playTogether(heightAnimator, textSizeAnimator)
+            animatorSet.duration = 300
+            animatorSet.start()
         }
 
         fun updateTimeRemaining() {
@@ -121,10 +144,24 @@ class AlarmsFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && !isTimeRemainingHidden) {
-                    timeRemainingTextView.visibility = View.GONE
+                    animateHeightAndTextSize(
+                        timeRemainingTextView,
+                        timeRemainingTextView.height,
+                        0,
+                        textAlarmsTextView,
+                        24f,
+                        16f
+                    )
                     isTimeRemainingHidden = true
                 } else if (dy < 0 && isTimeRemainingHidden) {
-                    timeRemainingTextView.visibility = View.VISIBLE
+                    animateHeightAndTextSize(
+                        timeRemainingTextView,
+                        0,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        textAlarmsTextView,
+                        16f,
+                        24f
+                    )
                     isTimeRemainingHidden = false
                     updateTimeRemaining()
                 }
