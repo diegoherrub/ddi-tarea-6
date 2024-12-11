@@ -22,6 +22,7 @@ class AlarmsFragment : Fragment() {
     private lateinit var alarmsDataRepository: AlarmsDataRepository
     private lateinit var alarmList: MutableList<Alarm>
     private lateinit var adapter: AlarmAdapter
+    private var isTimeRemainingHidden = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +68,8 @@ class AlarmsFragment : Fragment() {
         }
 
         fun updateTimeRemaining() {
+            if (isTimeRemainingHidden) return
+
             val currentTime = LocalTime.now()
             val activeAlarms = alarmList.filter { it.isActive }
             if (activeAlarms.isNotEmpty()) {
@@ -87,8 +90,8 @@ class AlarmsFragment : Fragment() {
                     val hours = minutesRemaining / 60
                     val minutes = minutesRemaining % 60
                     timeRemainingTextView.text = when {
-                        hours > 0 -> "La próxima alarma sonará en $hours horas y $minutes minutos"
-                        else -> "La próxima alarma sonará en $minutes minutos"
+                        hours > 0 -> "La alarma sonará en $hours horas y $minutes minutos"
+                        else -> "La alarma sonará en $minutes minutos"
                     }
                 }
             } else {
@@ -113,6 +116,20 @@ class AlarmsFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && !isTimeRemainingHidden) {
+                    timeRemainingTextView.visibility = View.GONE
+                    isTimeRemainingHidden = true
+                } else if (dy < 0 && isTimeRemainingHidden) {
+                    timeRemainingTextView.visibility = View.VISIBLE
+                    isTimeRemainingHidden = false
+                    updateTimeRemaining()
+                }
+            }
+        })
 
         updateTimeRemaining()
     }
