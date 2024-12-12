@@ -19,6 +19,10 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
+/**
+ * Fragment for displaying and managing a list of alarms. It handles interactions such as scrolling,
+ * updating alarm states, and animating UI elements based on user actions.
+ */
 class AlarmsFragment : Fragment() {
 
     private lateinit var alarmsDataRepository: AlarmsDataRepository
@@ -26,13 +30,28 @@ class AlarmsFragment : Fragment() {
     private lateinit var adapter: AlarmAdapter
     private var isTimeRemainingHidden = false
 
+    /**
+     * Inflates the layout for the fragment.
+     *
+     * @param inflater The LayoutInflater object for inflating views.
+     * @param container The parent ViewGroup (if non-null).
+     * @param savedInstanceState Previously saved state, if any.
+     * @return The root view of the inflated layout.
+     */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_alarms, container, false)
     }
 
+    /**
+     * Called after the view is created. Sets up RecyclerView, adapters, animations, and data handling.
+     *
+     * @param view The root view of the fragment.
+     * @param savedInstanceState Previously saved state, if any.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +62,7 @@ class AlarmsFragment : Fragment() {
         val xmlLocal = AlarmsXmlLocalDataRepository(requireContext())
         alarmsDataRepository = AlarmsDataRepository(xmlLocal)
 
+        // Initialize the alarm list and populate it if empty
         alarmList = alarmsDataRepository.getAlarms().toMutableList()
         if (alarmList.isEmpty()) {
             alarmList = mutableListOf(
@@ -70,7 +90,24 @@ class AlarmsFragment : Fragment() {
             alarmsDataRepository.saveAlarms(alarmList)
         }
 
-        fun animateHeightAndTextSize(view: View, fromHeight: Int, toHeight: Int, textView: TextView, fromSize: Float, toSize: Float) {
+        /**
+         * Animates the height and text size of a view for smooth transitions.
+         *
+         * @param view The view to animate.
+         * @param fromHeight Initial height value.
+         * @param toHeight Target height value.
+         * @param textView The TextView whose text size will be animated.
+         * @param fromSize Initial text size.
+         * @param toSize Target text size.
+         */
+        fun animateHeightAndTextSize(
+            view: View,
+            fromHeight: Int,
+            toHeight: Int,
+            textView: TextView,
+            fromSize: Float,
+            toSize: Float
+        ) {
             val heightAnimator = ValueAnimator.ofInt(fromHeight, toHeight)
             heightAnimator.addUpdateListener { animation ->
                 val value = animation.animatedValue as Int
@@ -90,11 +127,17 @@ class AlarmsFragment : Fragment() {
             animatorSet.start()
         }
 
+        /**
+         * Updates the time remaining text based on the next active alarm.
+         */
         fun updateTimeRemaining() {
+            // Avoid running unnecessary logic to update the timeRemainingTextView text
+            // when this item is already hidden.
             if (isTimeRemainingHidden) return
 
             val currentTime = LocalTime.now()
             val activeAlarms = alarmList.filter { it.isActive }
+
             if (activeAlarms.isNotEmpty()) {
                 val formatter = DateTimeFormatter.ofPattern("HH:mm")
                 val closestAlarm = activeAlarms.minByOrNull {
@@ -106,15 +149,16 @@ class AlarmsFragment : Fragment() {
 
                 closestAlarm?.let {
                     val alarmTime = LocalTime.parse(it.hour, formatter)
-                    val minutesRemaining = ChronoUnit.MINUTES.between(currentTime, alarmTime).let { diff ->
-                        if (diff < 0) diff + 24 * 60 else diff
-                    }
+                    val minutesRemaining =
+                        ChronoUnit.MINUTES.between(currentTime, alarmTime).let { diff ->
+                            if (diff < 0) diff + 24 * 60 else diff
+                        }
 
                     val hours = minutesRemaining / 60
                     val minutes = minutesRemaining % 60
                     timeRemainingTextView.text = when {
-                        hours > 0 -> "La alarma sonará en $hours horas y $minutes minutos"
-                        else -> "La alarma sonará en $minutes minutos"
+                        hours > 0 -> "Próxima alarma en $hours horas y $minutes minutos"
+                        else -> "Próxima alarma en $minutes minutos"
                     }
                 }
             } else {
@@ -122,6 +166,7 @@ class AlarmsFragment : Fragment() {
             }
         }
 
+        // Set up the RecyclerView adapter and layout manager
         adapter = AlarmAdapter(alarmList.toMutableList()) { updatedAlarm ->
             val index = alarmList.indexOfFirst { it.hour == updatedAlarm.hour }
             if (index != -1) {
@@ -140,12 +185,12 @@ class AlarmsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+        // Handle scrolling animations for the time remaining text
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (dy > 0 && !isTimeRemainingHidden) {
-                    // Si ya está oculto, no volver a animar
                     isTimeRemainingHidden = true
                     animateHeightAndTextSize(
                         timeRemainingTextView,
@@ -156,7 +201,6 @@ class AlarmsFragment : Fragment() {
                         16f
                     )
                 } else if (dy < 0 && isTimeRemainingHidden) {
-                    // Si ya está visible, no volver a animar
                     isTimeRemainingHidden = false
                     animateHeightAndTextSize(
                         timeRemainingTextView,
