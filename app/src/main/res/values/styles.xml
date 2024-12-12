@@ -1,21 +1,14 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base style -->
-    <style name="BaseTextStyle">
-        <item name="android:fontFamily">@font/open_sans_regular</item>
-        <item name="android:textSize">16sp</item>
+    <!-- Toolbar -->
+    <style name="style_button_show_more">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="iconSize">@dimen/pd_large</item>
     </style>
 
-    <!-- Primary Text -->
-    <style name="TextStyle.Primary" parent="BaseTextStyle">
-        <item name="android:fontFamily">@font/open_sans_regular</item>
-        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
-    </style>
-
-    <!-- Secondary Text -->
-    <style name="TextStyle.Secondary" parent="BaseTextStyle">
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textColor">@color/md_theme_onSecondaryContainer</item>
+    <!-- Popup Menu -->
+    <style name="CustomPopupMenu">
+        <item name="android:windowBackground">@color/md_theme_background</item>
     </style>
 
     <!-- Text View Hour -->

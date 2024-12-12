@@ -2,7 +2,6 @@
     <string name="app_name">UI</string>
 
     <!-- Top Bar -->
-    <string name="menu_toolbar_title">Más</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_settings">Ajustes</string>
 
