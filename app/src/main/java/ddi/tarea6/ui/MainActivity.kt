@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val buttonAddAlarm: MaterialButton = findViewById(R.id.button_add_alarm)
+        buttonAddAlarm.setOnClickListener {
+            Toast.makeText(this, "Añadir alarma pulsado", Toast.LENGTH_SHORT).show()
+        }
+
         val buttonShowMore: MaterialButton = findViewById(R.id.button_show_more)
         buttonShowMore.setOnClickListener {
 

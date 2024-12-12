@@ -13,19 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/md_theme_tertiary"
+        android:paddingStart="@dimen/pd_medium"
+        android:paddingEnd="@dimen/pd_medium"
         android:title="@string/alarms"
         android:titleTextColor="@color/md_theme_onPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_add_alarm"
+            style="@style/style_buttons_toolbar"
+            android:layout_gravity="start"
+            app:icon="@drawable/outline_add_24" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_show_more"
-            style="@style/style_button_show_more"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/baseline_more_vert_24"
-            android:layout_gravity="end"/>
+            style="@style/style_buttons_toolbar"
+            android:layout_gravity="end"
+            app:icon="@drawable/baseline_more_vert_24" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <!-- Fragment Container -->
