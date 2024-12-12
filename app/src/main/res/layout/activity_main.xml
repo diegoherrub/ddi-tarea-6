@@ -19,10 +19,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/button_show_more"
             style="@style/style_button_show_more"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             app:icon="@drawable/baseline_more_vert_24"
             android:layout_gravity="end"/>

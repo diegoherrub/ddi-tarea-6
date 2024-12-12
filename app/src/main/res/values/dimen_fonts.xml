@@ -4,5 +4,4 @@
     <dimen name="txt_medium">16sp</dimen>
     <dimen name="txt_large">24sp</dimen>
     <dimen name="txt_hour">32sp</dimen>
-
 </resources>
